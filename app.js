@@ -1,9 +1,13 @@
 const express = require('express')
 const Controller = require('./controller/controller.js')
 const bodyParser = require('body-parser')
-const basicAuth = require('express-basic-auth');
+const basicAuth = require('express-basic-auth')
+const https = require('https')
+const path = require('path')
+const fs = require('fs')
 
 const app = express()
+
 app.use(basicAuth({
     users: { 'user': 'pass' },
     unauthorizedResponse: '{ "Error" : "Wrong or No credentials provided"}'
@@ -19,5 +23,12 @@ app.use(function(req, res, next) {
 
 Controller(app);
 
-app.listen(3000);
-console.log('listening to port 3000');
+const sslServer = https.createServer(
+  {
+    key: '',
+    cert: ''
+  },
+  app
+)
+
+sslServer.listen(3443, () => console.log('https server'))

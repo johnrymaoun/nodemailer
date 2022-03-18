@@ -18,7 +18,7 @@ module.exports = function (app) {
 
   app.post('/',
     body("name").exists(),
-    body("email").exists().isEmail(),
+    body("email").isEmail(),
     body('phone').optional().isMobilePhone(),
     body("message").exists(),
     (req, res) => {
